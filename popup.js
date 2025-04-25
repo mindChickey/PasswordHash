@@ -4,6 +4,7 @@ let {convert} = require('./hash')
 let pass = document.getElementById("passwordInput")
 let button = document.getElementById("enter")
 let phidden = document.getElementById("phidden")
+let show = document.getElementById("show")
 let tips = document.getElementById("tips")
 let clear = document.getElementById("clear")
 
@@ -22,16 +23,22 @@ function getOptions(){
   return {hasUpper, hasLower, hasSymbol, hasNumber, len}
 }
 
-function getPHidden(password) {
-  let last = Array.from(password.slice(1)).map((c) => '*').join('')
-  return password[0] + last
+function showPHidden(password) {
+  if(show.checked){
+    phidden.textContent = password
+  } else {
+    let last = Array.from(password.slice(1)).map((c) => '*').join('')
+    phidden.textContent = password[0] + last
+  }
 }
 
 async function writeClipboard(text){
   let password = await convert(text, getOptions())
   await window.navigator.clipboard.writeText(password)
 
-  phidden.textContent = getPHidden(password)
+  showPHidden(password)
+  show.onchange = (e) => { showPHidden(password) }
+
   tips.textContent = "copy success, please paste within 30 seconds"
 
   if(chrome.runtime){
