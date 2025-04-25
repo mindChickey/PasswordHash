@@ -12,14 +12,28 @@ let upper = document.getElementById("upper")
 let lower = document.getElementById("lower")
 let symbol = document.getElementById("symbol")
 let number = document.getElementById("number")
-let passLen = document.getElementById("len")
+let lenSelect = document.getElementById("len")
+
+function makeLenOption(){
+  for (let i = 4; i <= 20; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    lenSelect.appendChild(option);
+  }
+  lenSelect.value = 16
+
+  lenSelect.onchange = () => {
+    parseInt(lenSelect.value, 10);
+  }
+}
 
 function getOptions(){
   let hasUpper = upper.checked
   let hasLower = lower.checked
   let hasSymbol = symbol.checked
   let hasNumber = number.checked
-  let len = passLen.value
+  let len = parseInt(lenSelect.value, 10);
   return {hasUpper, hasLower, hasSymbol, hasNumber, len}
 }
 
@@ -65,4 +79,5 @@ clear.onclick = async () => {
   tips.textContent = "clear success"
 }
 
+makeLenOption()
 pass.focus()
