@@ -1,14 +1,16 @@
 
 let {convert} = require('./hash')
 
+let defaultOptions = {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}
+
 async function forInput(element) {
-  element.value = await convert(element.value)
+  element.value = await convert(element.value, defaultOptions)
   element.dispatchEvent(new Event('input'))
   element.dispatchEvent(new Event('change'));
 }
 
 async function forEditable(element) {
-  element.textContent = await convert(element.textContent)
+  element.textContent = await convert(element.textContent, defaultOptions)
   element.dispatchEvent(new Event('input'))
 }
 

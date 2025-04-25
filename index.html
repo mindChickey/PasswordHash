@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+      body {
+        background-color: #FEFEFE;
+        padding: 4px;
+      }
+    </style>
+  </head>
 
-<body>
-  <script src="out/popup.js"></script>
-</body>
+  <body>
+    <input type="password" id="passwordInput"/>
+    <button id="enter">Enter</button>
 
-<style type="text/css">
-  body {
-    background-color: #FEFEFE;
-    padding: 4px;
-  }
-</style>
+    <input type="checkbox" id="upper" name="upper" checked/>
+    <label for="upper">upper</label>
 
+    <input type="checkbox" id="lower" name="lower" checked/>
+    <label for="lower">lower</label>
+
+    <input type="checkbox" id="symbol" name="symbol" checked/>
+    <label for="symbol">symbol</label>
+
+    <input type="checkbox" id="number" name="number" checked/>
+    <label for="number">number</label>
+
+    <input type="number" id="len" min=4 max=20 value=16 />
+
+    <div id="tips"></div>
+    <button id="clear" hidden>clear clipboard</button>
+
+    <script src="out/popup.js" defer></script>
+  </body>
 </html>

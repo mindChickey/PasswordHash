@@ -1,9 +1,9 @@
 
 # 直接使用
-  https://w453908766.github.io/PasswordHash/ 
+  https://mindchickey.github.io/PasswordHash/
 
 # 下载安装
-  https://github.com/w453908766/PasswordHash/releases/download/3.1.0/passwordHash-3.1.0.zip
+  https://github.com/mindChickey/PasswordHash/releases/download/3.1.0/passwordHash-3.1.0.zip
   解压， 打开 chrome://extensions/ 页面， 打开“开发者模式”，把 passwordHash.crx 拖入页面中安装
 
 # 使用

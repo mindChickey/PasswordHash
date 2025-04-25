@@ -1,27 +1,28 @@
 
 let {convert} = require('./hash')
 
-let pass = document.createElement("input")
-pass.type = "password"
-document.body.appendChild(pass)
+let pass = document.getElementById("passwordInput")
+let button = document.getElementById("enter")
+let tips = document.getElementById("tips")
+let clear = document.getElementById("clear")
 
-let button = document.createElement("button")
-button.textContent = "Enter"
-document.body.appendChild(button)
+let upper = document.getElementById("upper")
+let lower = document.getElementById("lower")
+let symbol = document.getElementById("symbol")
+let number = document.getElementById("number")
+let passLen = document.getElementById("len")
 
-let tips = document.createElement("div")
-document.body.appendChild(tips)
-
-let clear = document.createElement("button")
-clear.textContent = "clear clipboard"
-document.body.appendChild(clear)
-clear.hidden = true
-
-pass.focus()
-
+function getOptions(){
+  let hasUpper = upper.checked
+  let hasLower = lower.checked
+  let hasSymbol = symbol.checked
+  let hasNumber = number.checked
+  let len = passLen.value
+  return {hasUpper, hasLower, hasSymbol, hasNumber, len}
+}
 
 async function writeClipboard(text){
-  let password = await convert(text)
+  let password = await convert(text, getOptions())
   await window.navigator.clipboard.writeText(password)
 
   if(chrome.runtime){
@@ -49,3 +50,5 @@ clear.onclick = async () => {
   await window.navigator.clipboard.writeText("")
   tips.textContent = "clear success"
 }
+
+pass.focus()
