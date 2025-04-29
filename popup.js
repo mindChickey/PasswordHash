@@ -37,12 +37,16 @@ function getOptions(){
   return {hasUpper, hasLower, hasSymbol, hasNumber, len}
 }
 
-function showPHidden(password) {
+function hiddenChar(str){
+  return Array.from(str).map((c) => '*').join('')
+}
+
+function showPHidden(text, password) {
   if(show.checked){
-    phidden.textContent = password
+    phidden.textContent = text + '\n' + password
   } else {
-    let last = Array.from(password.slice(1)).map((c) => '*').join('')
-    phidden.textContent = password[0] + last
+    let last = password[0] + hiddenChar(password.slice(1))
+    phidden.textContent = hiddenChar(text) + '\n' + last
   }
 }
 
@@ -50,8 +54,8 @@ async function writeClipboard(text){
   let password = await convert(text, getOptions())
   await window.navigator.clipboard.writeText(password)
 
-  showPHidden(password)
-  show.onchange = (e) => { showPHidden(password) }
+  showPHidden(text, password)
+  show.onchange = (e) => { showPHidden(text, password) }
 
   tips.textContent = "copy success, please paste within 30 seconds"
 
