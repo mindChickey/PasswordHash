@@ -5,12 +5,10 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "watch": "vite build --watch",
-    "build": "vite build"
+    "build": "bun build src/background.ts src/contentScript.ts src/popup.ts --outdir out"
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/chrome": "^0.1.19",
-    "vite": "^7.1.9"
+    "@types/chrome": "^0.1.19"
   }
 }
