@@ -1,27 +1,27 @@
 
-let {convert} = require('./hash')
+import { convert } from "./hash"
 
-let pass = document.getElementById("passwordInput")
-let button = document.getElementById("enter")
-let phidden = document.getElementById("phidden")
-let show = document.getElementById("show")
-let tips = document.getElementById("tips")
-let clear = document.getElementById("clear")
+let pass = document.getElementById("passwordInput") as HTMLInputElement
+let button = document.getElementById("enter") as HTMLButtonElement
+let phidden = document.getElementById("phidden") as HTMLDivElement
+let show = document.getElementById("show") as HTMLInputElement
+let tips = document.getElementById("tips") as HTMLDivElement
+let clear = document.getElementById("clear") as HTMLButtonElement
 
-let upper = document.getElementById("upper")
-let lower = document.getElementById("lower")
-let symbol = document.getElementById("symbol")
-let number = document.getElementById("number")
-let lenSelect = document.getElementById("len")
+let upper = document.getElementById("upper") as HTMLInputElement
+let lower = document.getElementById("lower") as HTMLInputElement
+let symbol = document.getElementById("symbol") as HTMLInputElement
+let number = document.getElementById("number") as HTMLInputElement
+let lenSelect = document.getElementById("len") as HTMLSelectElement
 
 function makeLenOption(){
   for (let i = 4; i <= 20; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = i;
-    lenSelect.appendChild(option);
+    const option = document.createElement("option")
+    option.value = i.toString()
+    option.textContent = i.toString()
+    lenSelect.appendChild(option)
   }
-  lenSelect.value = 16
+  lenSelect.value = "16"
 
   lenSelect.onchange = () => {
     parseInt(lenSelect.value, 10);
@@ -37,11 +37,11 @@ function getOptions(){
   return {hasUpper, hasLower, hasSymbol, hasNumber, len}
 }
 
-function hiddenChar(str){
+function hiddenChar(str: string){
   return Array.from(str).map((c) => '*').join('')
 }
 
-function showPHidden(text, password) {
+function showPHidden(text: string, password: string) {
   if(show.checked){
     phidden.textContent = text + '\n' + password
   } else {
@@ -50,7 +50,7 @@ function showPHidden(text, password) {
   }
 }
 
-async function writeClipboard(text){
+async function writeClipboard(text: string){
   let password = await convert(text, getOptions())
   await window.navigator.clipboard.writeText(password)
 

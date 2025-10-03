@@ -1,5 +1,13 @@
+ 
+type OptionsT = {
+  hasUpper: boolean,
+  hasLower: boolean,
+  hasSymbol: boolean,
+  hasNumber: boolean,
+  len: number
+}
 
-async function deriveKey(password, salt, iterations, keyLength) {
+async function deriveKey(password: string, salt: string, iterations: number, keyLength: number) {
   let enc = new TextEncoder()
   let passwordBuffer = enc.encode(password)
   let saltBuffer = enc.encode(salt)
@@ -14,7 +22,7 @@ async function deriveKey(password, salt, iterations, keyLength) {
   return new Uint8Array(derivedKeyBuffer)
 }
 
-function getRegString(options){
+function getRegString(options: OptionsT){
   let regexString = '[^'
   if (options.hasUpper) regexString += 'A-Z'
   if (options.hasLower) regexString += 'a-z'
@@ -23,14 +31,14 @@ function getRegString(options){
   return regexString
 }
 
-function getBase64Len(options){
+function getBase64Len(options: OptionsT){
   let sum = Number(options.hasUpper) + Number(options.hasLower) +
             Number(options.hasNumber) + Number(options.hasSymbol)
   return options.len - sum
 }
 
-function fixBase64(arr, options){
-  let str0 = btoa(String.fromCharCode.apply(null, arr))
+function fixBase64(arr: Uint8Array<ArrayBuffer>, options: OptionsT){
+  let str0 = btoa(String.fromCharCode(...arr))
   let str1 = str0.replace(new RegExp(getRegString(options), 'g'), '')
   if(str1.length === 0){
     alert("empty")
@@ -42,12 +50,12 @@ function fixBase64(arr, options){
   }
 }
 
-function insert(str, index, value) {
+function insert(str: string, index: number, value: string) {
   let index1 = index % (str.length + 1)
-  return str.substr(0, index1) + value + str.substr(index1);
+  return str.slice(0, index1) + value + str.slice(index1);
 }
 
-function insertChar(str, arr, options) {
+function insertChar(str: string, arr: Uint8Array<ArrayBuffer>, options: OptionsT) {
   if (options.hasUpper) {
     let A = String.fromCharCode("A".charCodeAt(0) + arr[28] % 26)
     str = insert(str, arr[28], A)
@@ -67,7 +75,7 @@ function insertChar(str, arr, options) {
   return str
 }
 
-export async function convert(text, options) {
+export async function convert(text: string, options: OptionsT) {
   let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
   let str = fixBase64(arr, options)
   return insertChar(str, arr, options)

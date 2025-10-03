@@ -8,13 +8,13 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "passwordHash") {
+  if (tab?.id && info.menuItemId === "passwordHash") {
     chrome.tabs.sendMessage(tab.id, {kind: "convert"})
   }
 })
 
 chrome.commands.onCommand.addListener((command, tab) => {
-  if(command === "hash-password"){
+  if(tab?.id && command === "hash-password"){
     chrome.tabs.sendMessage(tab.id, {kind: "convert"})
   }
 })
@@ -24,7 +24,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     setTimeout(async ()=>{
       let queryOptions = { active: true, lastFocusedWindow: true };
       let [tab] = await chrome.tabs.query(queryOptions);
-      await chrome.tabs.sendMessage(tab.id, message)
+      if(tab && tab.id){
+        await chrome.tabs.sendMessage(tab.id, message)
+      }
     }, 30000)
   }
   return true;
