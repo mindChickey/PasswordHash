@@ -81,6 +81,23 @@ export async function convert(text: string, options: OptionsT) {
   return insertChar(str, arr, options)
 }
 
+function convertCharSet(arr: Uint8Array<ArrayBuffer>, charSet: string){
+  let brr = Array.from(arr)
+  let crr = brr.map((b)=> charSet[b % charSet.length])
+  return crr.join("")
+}
+
+export async function convertHandWrite(text: string){
+  const UPPERCASE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ" // exclude O, I
+  const LOWERCASE_CHARS = "abcdefghijkmnpqrstuvwxyz" // exclude o, l
+  const DIGIT_CHARS = "23456789"                     // exclude 0, 1
+  let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
+  let uppers = convertCharSet(arr.slice(0, 4), UPPERCASE_CHARS)
+  let lowers = convertCharSet(arr.slice(4, 8), LOWERCASE_CHARS)
+  let digits = convertCharSet(arr.slice(8, 10), DIGIT_CHARS)
+  return uppers + lowers + digits
+}
+
 /*
 async function main(){
   let options = {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}

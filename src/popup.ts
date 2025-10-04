@@ -1,5 +1,5 @@
 
-import { convert } from "./hash"
+import { convert, convertHandWrite } from "./hash"
 
 let pass = document.getElementById("passwordInput") as HTMLInputElement
 let button = document.getElementById("enter") as HTMLButtonElement
@@ -12,6 +12,10 @@ let lower = document.getElementById("lower") as HTMLInputElement
 let symbol = document.getElementById("symbol") as HTMLInputElement
 let number = document.getElementById("number") as HTMLInputElement
 let lenSelect = document.getElementById("len") as HTMLSelectElement
+
+let checkbox_mode = document.getElementById("checkbox_mode") as HTMLInputElement
+let hand_mode = document.getElementById("hand_mode") as HTMLInputElement
+let digit_mode = document.getElementById("digit_mode") as HTMLInputElement
 
 function getOptions(){
   let hasUpper = upper.checked
@@ -35,8 +39,19 @@ function showPHidden(text: string, password: string) {
   }
 }
 
-async function writeClipboard(text: string){
-  let password = await convert(text, getOptions())
+async function convert1(text: string){
+  if(checkbox_mode.checked){
+    return await convert(text, getOptions())
+  } else if(hand_mode.checked){
+    return await convertHandWrite(text)
+  } else {
+    let options = {hasUpper: false, hasLower: false, hasSymbol: false, hasNumber: true, len: 6}
+    return await convert(text, options)
+  }
+}
+
+async function enter(text: string){
+  let password = await convert1(text)
   await window.navigator.clipboard.writeText(password)
 
   showPHidden(text, password)
@@ -46,12 +61,12 @@ async function writeClipboard(text: string){
 }
 
 button.onclick = () => {
-  writeClipboard(pass.value)
+  enter(pass.value)
 }
 
 pass.onkeyup = (e) => {
   if(e.key === "Enter"){
-    writeClipboard(pass.value)
+    enter(pass.value)
   } else {
     tips.textContent = ""
   }
