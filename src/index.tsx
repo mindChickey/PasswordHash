@@ -59,19 +59,19 @@ function Show() {
   </div>
 }
 
-function Body({ jscontent }: { jscontent: string }) {
+function Body({ jspath }: { jspath: string }) {
   return <body>
     <ModeGroup />
     <InputGroup />
     <Show />
     <div id="tips"></div>
-    <script defer>{jscontent}</script>
+    <script defer src={jspath}></script>
   </body>
 }
 
-export function IndexPage({ jscontent }: { jscontent: string }) {
+export function IndexPage({ jspath }: { jspath: string }) {
   return <html>
     <Head />
-    <Body jscontent={jscontent} />
+    <Body jspath={jspath} />
   </html>
 }
