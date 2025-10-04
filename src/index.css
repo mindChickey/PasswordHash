@@ -1,0 +1,11 @@
+
+body {
+  background-color: #FEFEFE;
+  padding: 4px;
+  line-height: 3rem;
+  font-family: "Droid Sans Mono", "monospace", monospace;
+}
+
+#phidden {
+  white-space: pre-line;
+}

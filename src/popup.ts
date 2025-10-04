@@ -14,20 +14,6 @@ let symbol = document.getElementById("symbol") as HTMLInputElement
 let number = document.getElementById("number") as HTMLInputElement
 let lenSelect = document.getElementById("len") as HTMLSelectElement
 
-function makeLenOption(){
-  for (let i = 4; i <= 20; i++) {
-    const option = document.createElement("option")
-    option.value = i.toString()
-    option.textContent = i.toString()
-    lenSelect.appendChild(option)
-  }
-  lenSelect.value = "16"
-
-  lenSelect.onchange = () => {
-    parseInt(lenSelect.value, 10);
-  }
-}
-
 function getOptions(){
   let hasUpper = upper.checked
   let hasLower = lower.checked
@@ -83,5 +69,4 @@ clear.onclick = async () => {
   tips.textContent = "clear success"
 }
 
-makeLenOption()
 pass.focus()

@@ -1,51 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style type="text/css">
-      body {
-        background-color: #FEFEFE;
-        padding: 4px;
-        line-height: 3rem;
-        font-family: "Droid Sans Mono", "monospace", monospace;
-      }
-      #phidden {
-        white-space: pre-line;
-      }
-    </style>
-  </head>
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style>
+body {
+  background-color: #FEFEFE;
+  padding: 4px;
+  line-height: 3rem;
+  font-family: "Droid Sans Mono", "monospace", monospace;
+}
 
-  <body>
-    <div>
-      <input type="password" id="passwordInput"/>
-      <button id="enter">Enter</button>
-    </div>
-
-    <div>
-      <input type="checkbox" id="upper" name="upper" checked/>
-      <label for="upper">upper</label>
-  
-      <input type="checkbox" id="lower" name="lower" checked/>
-      <label for="lower">lower</label>
-  
-      <input type="checkbox" id="symbol" name="symbol" checked/>
-      <label for="symbol">symbol</label>
-  
-      <input type="checkbox" id="number" name="number" checked/>
-      <label for="number">number</label>
-    </div>
-
-    <select id="len"></select>
-
-    <div>
-      <div id="phidden"></div>
-      <input type="checkbox" id="show" name="show"/>
-      <label for="show">show</label>
-    </div>
-
-    <div id="tips"></div>
-    <button id="clear" hidden>clear clipboard</button>
-
-    <script type="module" src="./out/popup.js" defer></script>
-  </body>
-</html>
+#phidden {
+  white-space: pre-line;
+}</style></head><body><div><input type="password" id="passwordInput"><button id="enter">Enter</button></div><div><input type="checkbox" id="upper" name="upper" checked="true"><label for="upper">upper</label><input type="checkbox" id="lower" name="lower" checked="true"><label for="lower">lower</label><input type="checkbox" id="symbol" name="symbol" checked="true"><label for="symbol">symbol</label><input type="checkbox" id="number" name="number" checked="true"><label for="number">number</label></div><select id="len" tabindex="-1"><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16" selected="true">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select><div><div id="phidden"></div><input type="checkbox" id="show" name="show"><label for="show">show</label></div><div id="tips"></div><button id="clear" hidden="true">clear clipboard</button><script defer="true">async function q(d,c,e,m){let E=new TextEncoder,I=E.encode(d),j=E.encode(c),L=await crypto.subtle.importKey("raw",I,{name:"PBKDF2"},!1,["deriveBits","deriveKey"]),P=await crypto.subtle.deriveBits({name:"PBKDF2",salt:j,iterations:e,hash:"SHA-256"},L,m);return new Uint8Array(P)}function z(d){let c="[^";if(d.hasUpper)c+="A-Z";if(d.hasLower)c+="a-z";if(d.hasNumber)c+="0-9";return c+="]",c}function A(d){let c=Number(d.hasUpper)+Number(d.hasLower)+Number(d.hasNumber)+Number(d.hasSymbol);return d.len-c}function F(d,c){let m=btoa(String.fromCharCode(...d)).replace(new RegExp(z(c),"g"),"");if(m.length===0)throw alert("empty"),"empty";else{let E=A(c),I=Math.ceil(E/m.length);return m.repeat(I).slice(0,E)}}function T(d,c,e){let m=c%(d.length+1);return d.slice(0,m)+e+d.slice(m)}function G(d,c,e){if(e.hasUpper){let m=String.fromCharCode(65+c[28]%26);d=T(d,c[28],m)}if(e.hasLower){let m=String.fromCharCode(97+c[29]%26);d=T(d,c[29],m)}if(e.hasNumber){let m=String.fromCharCode(48+c[30]%10);d=T(d,c[30],m)}if(e.hasSymbol){let m=c[31]%2?"_":"=";d=d+m}return d}async function M(d,c){let e=await q(d,"PasswordHash",1e6,256),m=F(e,c);return G(m,e,c)}var l=document.getElementById("passwordInput"),J=document.getElementById("enter"),k=document.getElementById("phidden"),y=document.getElementById("show"),H=document.getElementById("tips"),n=document.getElementById("clear"),Q=document.getElementById("upper"),V=document.getElementById("lower"),W=document.getElementById("symbol"),X=document.getElementById("number"),Y=document.getElementById("len");function Z(){let d=Q.checked,c=V.checked,e=W.checked,m=X.checked,E=parseInt(Y.value,10);return{hasUpper:d,hasLower:c,hasSymbol:e,hasNumber:m,len:E}}function B(d){return Array.from(d).map((c)=>"*").join("")}function C(d,c){if(y.checked)k.textContent=d+`
+`+c;else{let e=c[0]+B(c.slice(1));k.textContent=B(d)+`
+`+e}}async function D(d){let c=await M(d,Z());if(await window.navigator.clipboard.writeText(c),C(d,c),y.onchange=(e)=>{C(d,c)},H.textContent="copy success, please paste within 30 seconds",chrome.runtime)chrome.runtime.sendMessage({kind:"clear"},()=>{});else n.hidden=!1}J.onclick=()=>{D(l.value)};l.onkeyup=(d)=>{if(d.key==="Enter")D(l.value);else H.textContent=""};n.onclick=async()=>{await window.navigator.clipboard.writeText(""),H.textContent="clear success"};l.focus();
+</script></body></html>
