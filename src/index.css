@@ -9,3 +9,17 @@ body {
 #phidden {
   white-space: pre-line;
 }
+
+#len {
+  width: 4rem;
+}
+
+#checkboxs {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#checkbox_mode:checked ~ #checkboxs {
+  opacity: 1;
+  pointer-events: auto;
+}

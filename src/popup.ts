@@ -11,7 +11,7 @@ let upper = document.getElementById("upper") as HTMLInputElement
 let lower = document.getElementById("lower") as HTMLInputElement
 let symbol = document.getElementById("symbol") as HTMLInputElement
 let number = document.getElementById("number") as HTMLInputElement
-let lenSelect = document.getElementById("len") as HTMLSelectElement
+let lenInput = document.getElementById("len") as HTMLInputElement
 
 let checkbox_mode = document.getElementById("checkbox_mode") as HTMLInputElement
 let hand_mode = document.getElementById("hand_mode") as HTMLInputElement
@@ -22,7 +22,7 @@ function getOptions(){
   let hasLower = lower.checked
   let hasSymbol = symbol.checked
   let hasNumber = number.checked
-  let len = parseInt(lenSelect.value, 10);
+  let len = parseInt(lenInput.value, 10);
   return {hasUpper, hasLower, hasSymbol, hasNumber, len}
 }
 
