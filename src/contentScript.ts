@@ -27,23 +27,8 @@ function forTextBox(element: Element | null) {
   }
 }
 
-function clear(){
-  var textArea = document.createElement("textarea")
-  textArea.value = " "
-  textArea.style.position = "fixed"
-  document.body.appendChild(textArea)
-  textArea.focus()
-  textArea.select()
-  var successful = document.execCommand('copy')
-  var msg = successful ? 'success' : 'fail';
-  console.log('clear ' + msg);
-  textArea.remove()
-}
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if(message.kind === "convert"){
     forTextBox(document.activeElement)
-  } else if(message.kind === "clear") {
-    clear()
   }
 })

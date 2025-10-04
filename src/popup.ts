@@ -6,7 +6,6 @@ let button = document.getElementById("enter") as HTMLButtonElement
 let phidden = document.getElementById("phidden") as HTMLDivElement
 let show = document.getElementById("show") as HTMLInputElement
 let tips = document.getElementById("tips") as HTMLDivElement
-let clear = document.getElementById("clear") as HTMLButtonElement
 
 let upper = document.getElementById("upper") as HTMLInputElement
 let lower = document.getElementById("lower") as HTMLInputElement
@@ -43,13 +42,7 @@ async function writeClipboard(text: string){
   showPHidden(text, password)
   show.onchange = (e) => { showPHidden(text, password) }
 
-  tips.textContent = "copy success, please paste within 30 seconds"
-
-  if(chrome.runtime){
-    chrome.runtime.sendMessage({ kind: "clear" }, () => {});
-  } else {
-    clear.hidden = false
-  }
+  tips.textContent = "write to clipboard success"
 }
 
 button.onclick = () => {
@@ -62,11 +55,6 @@ pass.onkeyup = (e) => {
   } else {
     tips.textContent = ""
   }
-}
-
-clear.onclick = async () => {
-  await window.navigator.clipboard.writeText("")
-  tips.textContent = "clear success"
 }
 
 pass.focus()

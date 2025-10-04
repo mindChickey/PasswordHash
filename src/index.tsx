@@ -47,10 +47,6 @@ function LenSelect(){
     items.push({value, title})
   }
   return <Select id="len" items={items} currentValue="16" />
-
-//  lenSelect.onchange = () => {
-//    parseInt(lenSelect.value, 10);
-//  }
 }
 
 function Body({jscontent}:{jscontent: string}) {
@@ -60,7 +56,6 @@ function Body({jscontent}:{jscontent: string}) {
     <LenSelect />
     <Show />
     <div id="tips"></div>
-    <button id="clear" hidden>clear clipboard</button>
     <script defer>{jscontent}</script>
   </body>
 }
