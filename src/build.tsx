@@ -1,9 +1,10 @@
 
 import { build, file } from 'bun'
-import { createElement, writeRouteHtml, writeSitemap } from 'jasser'
+import { createElement, initNode, writeRouteHtml, writeSitemap } from 'jasser'
 import { IndexPage } from './index'
 
 async function buildIndex(rootDir: string){
+  initNode()
   let r0 = writeRouteHtml(rootDir, "/index.html", <IndexPage jspath="./popup.js"/>)
   let r1 = writeRouteHtml(".", "/index.html", <IndexPage jspath="./out/popup.js"/>)
   return Promise.all([r0, r1])

@@ -23,13 +23,10 @@ function CheckBoxGroup() {
     <input type="checkbox" id="lower" name="lower" checked />
     <label for="lower">lower</label>
 
-    <input type="checkbox" id="symbol" name="symbol" checked />
-    <label for="symbol">symbol</label>
-
     <input type="checkbox" id="number" name="number" checked />
     <label for="number">number</label>
 
-    <input type="number" id="len" min={1} value={16} />
+    <input type="number" id="len" min={1} max={30} value={15} />
   </div>
 }
 

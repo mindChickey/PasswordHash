@@ -9,7 +9,6 @@ let tips = document.getElementById("tips") as HTMLDivElement
 
 let upper = document.getElementById("upper") as HTMLInputElement
 let lower = document.getElementById("lower") as HTMLInputElement
-let symbol = document.getElementById("symbol") as HTMLInputElement
 let number = document.getElementById("number") as HTMLInputElement
 let lenInput = document.getElementById("len") as HTMLInputElement
 
@@ -20,10 +19,9 @@ let digit_mode = document.getElementById("digit_mode") as HTMLInputElement
 function getOptions(){
   let hasUpper = upper.checked
   let hasLower = lower.checked
-  let hasSymbol = symbol.checked
   let hasNumber = number.checked
   let len = parseInt(lenInput.value, 10);
-  return {hasUpper, hasLower, hasSymbol, hasNumber, len}
+  return {hasUpper, hasLower, hasNumber, len}
 }
 
 function hiddenChar(str: string){
@@ -45,7 +43,7 @@ async function convert1(text: string){
   } else if(hand_mode.checked){
     return await convertHandWrite(text)
   } else {
-    let options = {hasUpper: false, hasLower: false, hasSymbol: false, hasNumber: true, len: 6}
+    let options = {hasUpper: false, hasLower: false, hasNumber: true, len: 6}
     return await convert(text, options)
   }
 }

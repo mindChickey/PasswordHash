@@ -1,7 +1,7 @@
 
 import { convert } from "./hash"
 
-let defaultOptions = {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}
+let defaultOptions = {hasUpper: true, hasLower: true, hasNumber: true, len: 15}
 
 async function forInput(element: HTMLInputElement | HTMLTextAreaElement) {
   element.value = await convert(element.value, defaultOptions)

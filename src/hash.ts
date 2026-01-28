@@ -2,10 +2,13 @@
 type OptionsT = {
   hasUpper: boolean,
   hasLower: boolean,
-  hasSymbol: boolean,
   hasNumber: boolean,
   len: number
 }
+
+let UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+let LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
+let NUMBER_CHARS = "0123456789"                   
 
 async function deriveKey(password: string, salt: string, iterations: number, keyLength: number) {
   let enc = new TextEncoder()
@@ -13,72 +16,22 @@ async function deriveKey(password: string, salt: string, iterations: number, key
   let saltBuffer = enc.encode(salt)
 
   let importedKey = await crypto.subtle.importKey(
-      'raw', passwordBuffer, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey'])
+    'raw', passwordBuffer, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey'])
 
-  let derivedKeyBuffer = await crypto.subtle.deriveBits(
-      { name: 'PBKDF2', salt: saltBuffer, iterations: iterations, hash: 'SHA-256' },
-      importedKey, keyLength)
-
+  let algo = { name: 'PBKDF2', salt: saltBuffer, iterations: iterations, hash: 'SHA-256' }
+  let derivedKeyBuffer = await crypto.subtle.deriveBits(algo, importedKey, keyLength)
   return new Uint8Array(derivedKeyBuffer)
 }
 
-function getRegString(options: OptionsT){
-  let regexString = '[^'
-  if (options.hasUpper) regexString += 'A-Z'
-  if (options.hasLower) regexString += 'a-z'
-  if (options.hasNumber) regexString += '0-9'
-  regexString += ']';
-  return regexString
-}
-
-function getBase64Len(options: OptionsT){
-  let sum = Number(options.hasUpper) + Number(options.hasLower) +
-            Number(options.hasNumber) + Number(options.hasSymbol)
-  return options.len - sum
-}
-
-function fixBase64(arr: Uint8Array<ArrayBuffer>, options: OptionsT){
-  let str0 = btoa(String.fromCharCode(...arr))
-  let str1 = str0.replace(new RegExp(getRegString(options), 'g'), '')
-  if(str1.length === 0){
-    alert("empty")
-    throw "empty"
-  } else {
-    let len = getBase64Len(options)
-    let repeatCount = Math.ceil(len / str1.length)
-    return str1.repeat(repeatCount).slice(0, len)
+function splitArray(arr: Uint8Array<ArrayBuffer>, lens: number[]){
+  let arrs = []
+  let index = 0
+  for(let len of lens){
+    let ar = arr.slice(index, index + len)
+    arrs.push(ar)
+    index += len
   }
-}
-
-function insert(str: string, index: number, value: string) {
-  let index1 = index % (str.length + 1)
-  return str.slice(0, index1) + value + str.slice(index1);
-}
-
-function insertChar(str: string, arr: Uint8Array<ArrayBuffer>, options: OptionsT) {
-  if (options.hasUpper) {
-    let A = String.fromCharCode("A".charCodeAt(0) + arr[28] % 26)
-    str = insert(str, arr[28], A)
-  }
-  if (options.hasLower) {
-    let a = String.fromCharCode("a".charCodeAt(0) + arr[29] % 26)
-    str = insert(str, arr[29], a)
-  }
-  if (options.hasNumber) {
-    let num = String.fromCharCode("0".charCodeAt(0) + arr[30] % 10)
-    str = insert(str, arr[30], num)
-  }
-  if (options.hasSymbol) {
-    let sym = arr[31] % 2 ? '_' : '='
-    str = str + sym
-  }
-  return str
-}
-
-export async function convert(text: string, options: OptionsT) {
-  let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
-  let str = fixBase64(arr, options)
-  return insertChar(str, arr, options)
+  return arrs
 }
 
 function convertCharSet(arr: Uint8Array<ArrayBuffer>, charSet: string){
@@ -87,20 +40,48 @@ function convertCharSet(arr: Uint8Array<ArrayBuffer>, charSet: string){
   return crr.join("")
 }
 
-export async function convertHandWrite(text: string){
-  const UPPERCASE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ" // exclude O, I
-  const LOWERCASE_CHARS = "abcdefghijkmnpqrstuvwxyz" // exclude o, l
-  const DIGIT_CHARS = "23456789"                     // exclude 0, 1
+function convertPrefix(arrs: Uint8Array<ArrayBuffer>[], options: OptionsT) {
+  let char0 = options.hasUpper ? convertCharSet(arrs[0], UPPERCASE_CHARS) : ""
+  let char1 = options.hasLower ? convertCharSet(arrs[1], LOWERCASE_CHARS) : ""
+  let char2 = options.hasNumber ? convertCharSet(arrs[2], NUMBER_CHARS) : ""
+  return char0 + char1 + char2
+}
+
+function convertMain(arr: Uint8Array<ArrayBuffer>, options: OptionsT) {
+  let chars0 = options.hasUpper ? UPPERCASE_CHARS : ""
+  let chars1 = options.hasLower ? LOWERCASE_CHARS : ""
+  let chars2 = options.hasNumber ? NUMBER_CHARS : ""
+  let chars = chars0 + chars1 + chars2
+  return convertCharSet(arr, chars)
+}
+
+export async function convert(text: string, options: OptionsT) {
   let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
-  let uppers = convertCharSet(arr.slice(0, 4), UPPERCASE_CHARS)
-  let lowers = convertCharSet(arr.slice(4, 8), LOWERCASE_CHARS)
-  let digits = convertCharSet(arr.slice(8, 10), DIGIT_CHARS)
+  let arrs = splitArray(arr, [1, 1, 1, options.len])
+
+  let prefix = convertPrefix(arrs, options)
+  let arr1 = arrs[3].slice(0, options.len - prefix.length)
+  let str = convertMain(arr1, options)
+  return prefix + str
+}
+
+export async function convertHandWrite(text: string){
+  let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
+  let arrs = splitArray(arr, [4, 4, 2])
+
+  let upper_chars = UPPERCASE_CHARS.replace(/[OI]/g, '')
+  let lower_chars = LOWERCASE_CHARS.replace(/[ol]/g, '')
+  let number_chars = NUMBER_CHARS.replace(/[01]/g, '')
+  let uppers = convertCharSet(arrs[0], upper_chars)
+  let lowers = convertCharSet(arrs[1], lower_chars)
+  let digits = convertCharSet(arrs[2], number_chars)
+
   return uppers + lowers + digits
 }
 
 /*
 async function main(){
-  let options = {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}
+  let options = {hasUpper: true, hasLower: true, hasNumber: true, len: 15}
   for(let i = 0; i < 100; i++){
     console.log(await convert("text" + i, options))
   }
@@ -108,13 +89,10 @@ async function main(){
 main()
 
 async function testOptions(){
-  console.log(await convert("testOptions", {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}))
-  console.log(await convert("testOptions", {hasUpper: false, hasLower: true, hasSymbol: true, hasNumber: true, len: 16}))
-  console.log(await convert("testOptions", {hasUpper: true, hasLower: false, hasSymbol: true, hasNumber: true, len: 16}))
-  console.log(await convert("testOptions", {hasUpper: true, hasLower: true, hasSymbol: false, hasNumber: true, len: 16}))
-  console.log(await convert("testOptions", {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: false, len: 16}))
-  console.log(await convert("testOptions", {hasUpper: true, hasLower: true, hasSymbol: true, hasNumber: true, len: 8}))
-  console.log(await convert("testOptions", {hasUpper: false, hasLower: false, hasSymbol: false, hasNumber: true, len: 6}))
+  let text = "testOptions"
+  let options = {hasUpper: true, hasLower: false, hasNumber: true, len: 15}
+  let str = await convert(text, options)
+  console.log(str)
 }
 
 testOptions()
