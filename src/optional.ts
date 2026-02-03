@@ -62,4 +62,5 @@ export function initOptional(){
   setRadioChange(handModeRadio, false, true, 10)
   setRadioChange(digitModeRadio, false, true, 6)
   setRadioChange(stableModeRadio, true, false, 15)
+  stableModeRadio.checked = true
 }

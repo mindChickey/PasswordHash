@@ -30,6 +30,13 @@ body {
   box-sizing: border-box;
 }
 
+#domainInput {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
 #passwordInput {
   flex: 1;
   height: 38px;

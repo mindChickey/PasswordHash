@@ -2,6 +2,7 @@
 import { convert, convertHandWrite } from "./hash"
 import { getCustomOptions, getOptional, initOptional, Mode, OptionalT, setShowCheckBoxChange } from "./optional"
 
+let domainInput = document.getElementById("domainInput") as HTMLInputElement
 let passwordInput = document.getElementById("passwordInput") as HTMLInputElement
 let enterButton = document.getElementById("enterButton") as HTMLButtonElement
 let phiddenDiv = document.getElementById("phiddenDiv") as HTMLDivElement
@@ -31,12 +32,15 @@ async function convert1(optional: OptionalT, text: string){
   }
 }
 
-async function enter(text: string){
+async function enter(){
+  let domain = domainInput.value
+  let text = passwordInput.value
   let optional = getOptional()
-  let password = await convert1(optional, text)
+  let password = await convert1(optional, domain + text)
 
-  showPHidden(text, password)
-  setShowCheckBoxChange(() => { showPHidden(text, password) })
+  let set_show = () => showPHidden(text, password)
+  set_show()
+  setShowCheckBoxChange(set_show)
 
   if(optional.autoCopy){
     await window.navigator.clipboard.writeText(password)
@@ -46,7 +50,7 @@ async function enter(text: string){
 
 function passwordKeyup(e: KeyboardEvent){
   if(e.key === "Enter"){
-    enter(passwordInput.value)
+    enter()
   } else {
     tipsDiv.textContent = ""
   }
@@ -54,9 +58,9 @@ function passwordKeyup(e: KeyboardEvent){
 
 function main(){
   initOptional()
-  enterButton.onclick = () => enter(passwordInput.value)
+  enterButton.onclick = enter
   passwordInput.onkeyup = passwordKeyup
-  passwordInput.focus()
+  domainInput.focus()
 }
 
 main()

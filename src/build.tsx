@@ -26,7 +26,7 @@ async function main() {
 
   if (result.success) {
     await buildIndex(outdir)
-    console.log("build success")
+    console.log("build success at", Date())
   } else {
     console.error("build fail:", result.logs)
   }

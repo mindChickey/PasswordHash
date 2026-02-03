@@ -32,9 +32,16 @@ function LengthGroup(){
 }
 
 function PasswordGroup() {
-  return <div class="flex-row">
-    <input type="password" id="passwordInput" />
-    <button id="enterButton">Enter</button>
+  return <div>
+    <div class="flex-row">
+      <div>Domain:</div>
+      <input type="input" id="domainInput" />
+    </div>
+    <div class="flex-row">
+      <div>Password:</div>
+      <input type="password" id="passwordInput" />
+      <button id="enterButton">Enter</button>
+    </div>
   </div>
 }
 
