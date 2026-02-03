@@ -1,66 +1,32 @@
 
-import { convert, convertHandWrite } from "./hash"
-import { getCustomOptions, getOptional, initOptional, Mode, OptionalT, setShowCheckBoxChange } from "./optional"
+import { initInteract } from "./interact"
 
-let domainInput = document.getElementById("domainInput") as HTMLInputElement
-let passwordInput = document.getElementById("passwordInput") as HTMLInputElement
-let enterButton = document.getElementById("enterButton") as HTMLButtonElement
-let phiddenDiv = document.getElementById("phiddenDiv") as HTMLDivElement
-let tipsDiv = document.getElementById("tipsDiv") as HTMLDivElement
-
-function hiddenChar(str: string){
-  return Array.from(str).map((c) => '*').join('')
-}
-
-function showPHidden(text: string, password: string) {
-  let optional = getOptional()
-  if(optional.show){
-    phiddenDiv.textContent = text + '\n' + password
-  } else {
-    let last = password[0] + hiddenChar(password.slice(1))
-    phiddenDiv.textContent = hiddenChar(text) + '\n' + last
+async function getActiveTabSLD() {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  if (tab && tab.url) {
+    try {
+      let url = new URL(tab.url)
+      let hostname = url.hostname 
+      let parts = hostname.split('.')
+      
+      if (parts.length >= 2) {
+        return parts[parts.length - 2]
+      } else {
+        return ""
+      }
+    } catch (e) {
+      return ""
+    }
   }
 }
 
-async function convert1(optional: OptionalT, text: string){
-  let len = optional.len
-  if(optional.mode === Mode.Hand){
-    return await convertHandWrite(text, len)
-  } else {
-    let customOptions = getCustomOptions()
-    return await convert(text, customOptions, len)
+async function initPopup(){
+  initInteract()
+  let domain = await getActiveTabSLD()
+  if(domain){
+    let domainInput = document.getElementById("domainInput") as HTMLInputElement
+    domainInput.value = domain
   }
 }
 
-async function enter(){
-  let domain = domainInput.value
-  let text = passwordInput.value
-  let optional = getOptional()
-  let password = await convert1(optional, domain + text)
-
-  let set_show = () => showPHidden(text, password)
-  set_show()
-  setShowCheckBoxChange(set_show)
-
-  if(optional.autoCopy){
-    await window.navigator.clipboard.writeText(password)
-    tipsDiv.textContent = "write to clipboard success"
-  }
-}
-
-function passwordKeyup(e: KeyboardEvent){
-  if(e.key === "Enter"){
-    enter()
-  } else {
-    tipsDiv.textContent = ""
-  }
-}
-
-function main(){
-  initOptional()
-  enterButton.onclick = enter
-  passwordInput.onkeyup = passwordKeyup
-  domainInput.focus()
-}
-
-main()
+initPopup()
