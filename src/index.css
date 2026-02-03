@@ -19,7 +19,7 @@ body {
   pointer-events: none;
 }
 
-#checkbox_mode:checked ~ #checkboxs {
+#custom_mode:checked ~ #checkboxs {
   opacity: 1;
   pointer-events: auto;
 }

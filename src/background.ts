@@ -21,13 +21,13 @@ chrome.commands.onCommand.addListener((command, tab) => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.kind === "clear") {
-    setTimeout(async ()=>{
-      let queryOptions = { active: true, lastFocusedWindow: true };
-      let [tab] = await chrome.tabs.query(queryOptions);
-      if(tab && tab.id){
-        await chrome.tabs.sendMessage(tab.id, message)
-      }
-    }, 30000)
+    // setTimeout(async ()=>{
+    //   let queryOptions = { active: true, lastFocusedWindow: true };
+    //   let [tab] = await chrome.tabs.query(queryOptions);
+    //   if(tab && tab.id){
+    //     await chrome.tabs.sendMessage(tab.id, message)
+    //   }
+    // }, 30000)
   }
   return true;
 })

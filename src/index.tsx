@@ -34,15 +34,15 @@ function ModeGroup() {
   return <div>
     <div>
       <input type="radio" name="mode" id="hand_mode" value="hand_mode" />
-      <label for="hand_mode">hand write</label>
+      <label for="hand_mode">Hand write</label>
     </div>
     <div>
       <input type="radio" name="mode" id="digit_mode" value="digit_mode" />
       <label for="digit_mode">6 digit</label>
     </div>
     <div>
-      <input type="radio" name="mode" id="checkbox_mode" value="checkbox_mode" checked/>
-      <label for="checkbox_mode">checkbox</label>
+      <input type="radio" name="mode" id="custom_mode" value="custom_mode" checked/>
+      <label for="custom_mode">Custom</label>
       <CheckBoxGroup />
     </div>
   </div>
@@ -56,11 +56,19 @@ function Show() {
   </div>
 }
 
+function AutoCopy(){
+  return <div>
+    <input type="checkbox" id="auto_copy" name="auto_copy" checked />
+    <label for="auto_copy">auto copy</label>
+  </div>
+}
+
 function Body({ jspath }: { jspath: string }) {
   return <body>
     <ModeGroup />
     <InputGroup />
     <Show />
+    <AutoCopy />
     <div id="tips"></div>
     <script defer src={jspath}></script>
   </body>
