@@ -5,8 +5,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "bun run src/build.tsx",
-    "watch": "bun --watch src/build.tsx"
+    "watch_scripts": "bun build ./src/background.ts ./src/contentScript.ts ./src/popup.ts --outdir ./out --target browser --watch",
+    "watch_html": "bun --watch src/build.tsx",
+    "watch": "bun run watch_scripts & bun run watch_html"
   },
   "dependencies": {
     "jasser": "^1.1.2"
