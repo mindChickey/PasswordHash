@@ -65,9 +65,11 @@ export async function convert(text: string, options: OptionsT) {
   return prefix + str
 }
 
-export async function convertHandWrite(text: string){
+export async function convertHandWrite(text: string, len: number){
   let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
-  let arrs = splitArray(arr, [4, 4, 2])
+  let letterLen = Math.ceil(len / 3)
+  let digitLen = len - 2 * letterLen
+  let arrs = splitArray(arr, [letterLen, letterLen, digitLen])
 
   let upper_chars = UPPERCASE_CHARS.replace(/[OI]/g, '')
   let lower_chars = LOWERCASE_CHARS.replace(/[ol]/g, '')

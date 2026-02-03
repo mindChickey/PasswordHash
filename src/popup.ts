@@ -22,7 +22,7 @@ function getOptions(){
   let hasUpper = upperCheckBox.checked
   let hasLower = lowerCheckBox.checked
   let hasNumber = numberCheckBox.checked
-  let len = parseInt(lenInput.value, 10);
+  let len = parseInt(lenInput.value, 10)
   return {hasUpper, hasLower, hasNumber, len}
 }
 
@@ -43,9 +43,11 @@ async function convert1(text: string){
   if(customModeRadio.checked){
     return await convert(text, getOptions())
   } else if(handModeRadio.checked){
-    return await convertHandWrite(text)
+    let len = parseInt(lenInput.value, 10)
+    return await convertHandWrite(text, len)
   } else {
-    let options = {hasUpper: false, hasLower: false, hasNumber: true, len: 6}
+    let len = parseInt(lenInput.value, 10)
+    let options = {hasUpper: false, hasLower: false, hasNumber: true, len}
     return await convert(text, options)
   }
 }
@@ -74,13 +76,15 @@ passwordInput.onkeyup = (e) => {
   }
 }
 
-function handleModeChange(value: string){
-  if(value === 'custom_mode'){
+function handleModeChange(mode: string){
+  if(mode === 'custom_mode'){
     autoCopyCheckBox.checked = true
     showCheckBox.checked = false
+    lenInput.value = "15"
   } else {
     autoCopyCheckBox.checked = false
     showCheckBox.checked = true
+    lenInput.value = mode === "hand_mode" ? "10" : "6"
   }
 }
 
