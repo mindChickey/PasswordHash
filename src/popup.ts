@@ -11,8 +11,9 @@ function hiddenChar(str: string){
   return Array.from(str).map((c) => '*').join('')
 }
 
-function showPHidden(show: boolean, text: string, password: string) {
-  if(show){
+function showPHidden(text: string, password: string) {
+  let optional = getOptional()
+  if(optional.show){
     phiddenDiv.textContent = text + '\n' + password
   } else {
     let last = password[0] + hiddenChar(password.slice(1))
@@ -34,9 +35,8 @@ async function enter(text: string){
   let optional = getOptional()
   let password = await convert1(optional, text)
 
-  let show = optional.show
-  showPHidden(show, text, password)
-  setShowCheckBoxChange(() => { showPHidden(show, text, password) })
+  showPHidden(text, password)
+  setShowCheckBoxChange(() => { showPHidden(text, password) })
 
   if(optional.autoCopy){
     await window.navigator.clipboard.writeText(password)

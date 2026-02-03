@@ -55,7 +55,7 @@ function convertMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
 }
 
 export async function convert(text: string, options: CustomOptionT, len: number) {
-  let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
+  let arr = await deriveKey(text, len.toString(), 1000000, 256)
   let arrs = splitArray(arr, [1, 1, 1, len])
 
   let prefix = convertPrefix(arrs, options)
@@ -65,7 +65,7 @@ export async function convert(text: string, options: CustomOptionT, len: number)
 }
 
 export async function convertHandWrite(text: string, len: number){
-  let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
+  let arr = await deriveKey(text, len.toString(), 1000000, 256)
   let letterLen = Math.ceil(len / 3)
   let digitLen = len - 2 * letterLen
   let arrs = splitArray(arr, [letterLen, letterLen, digitLen])
