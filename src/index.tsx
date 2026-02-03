@@ -11,38 +11,38 @@ function Head() {
 function InputGroup() {
   return <div>
     <input type="password" id="passwordInput" />
-    <button id="enter">Enter</button>
+    <button id="enterButton">Enter</button>
   </div>
 }
 
 function CheckBoxGroup() {
   return <div id="checkboxs">
-    <input type="checkbox" id="upper" name="upper" checked />
-    <label for="upper">upper</label>
+    <input type="checkbox" id="upperCheckBox" name="upper" checked />
+    <label for="upperCheckBox">upper</label>
 
-    <input type="checkbox" id="lower" name="lower" checked />
-    <label for="lower">lower</label>
+    <input type="checkbox" id="lowerCheckBox" name="lower" checked />
+    <label for="lowerCheckBox">lower</label>
 
-    <input type="checkbox" id="number" name="number" checked />
-    <label for="number">number</label>
+    <input type="checkbox" id="numberCheckBox" name="number" checked />
+    <label for="numberCheckBox">number</label>
 
-    <input type="number" id="len" min={1} max={30} value={15} />
+    <input type="number" id="lenInput" min={1} max={30} value={15} />
   </div>
 }
 
 function ModeGroup() {
-  return <div>
+  return <div id="modeContainer">
     <div>
-      <input type="radio" name="mode" id="hand_mode" value="hand_mode" />
-      <label for="hand_mode">Hand write</label>
+      <input type="radio" name="mode" id="handModeRadio" value="hand_mode" />
+      <label for="handModeRadio">Hand write</label>
     </div>
     <div>
-      <input type="radio" name="mode" id="digit_mode" value="digit_mode" />
-      <label for="digit_mode">6 digit</label>
+      <input type="radio" name="mode" id="digitModeRadio" value="digit_mode" />
+      <label for="digitModeRadio">6 digit</label>
     </div>
     <div>
-      <input type="radio" name="mode" id="custom_mode" value="custom_mode" checked/>
-      <label for="custom_mode">Custom</label>
+      <input type="radio" name="mode" id="customModeRadio" value="custom_mode" checked/>
+      <label for="customModeRadio">Custom</label>
       <CheckBoxGroup />
     </div>
   </div>
@@ -50,16 +50,16 @@ function ModeGroup() {
 
 function Show() {
   return <div>
-    <div id="phidden"></div>
-    <input type="checkbox" id="show" name="show" />
-    <label for="show">show</label>
+    <div id="phiddenDiv"></div>
+    <input type="checkbox" id="showCheckBox" name="show" />
+    <label for="showCheckBox">show</label>
   </div>
 }
 
 function AutoCopy(){
   return <div>
-    <input type="checkbox" id="auto_copy" name="auto_copy" checked />
-    <label for="auto_copy">auto copy</label>
+    <input type="checkbox" id="autoCopyCheckBox" name="auto_copy" checked />
+    <label for="autoCopyCheckBox">auto copy</label>
   </div>
 }
 
@@ -69,7 +69,7 @@ function Body({ jspath }: { jspath: string }) {
     <InputGroup />
     <Show />
     <AutoCopy />
-    <div id="tips"></div>
+    <div id="tipsDiv"></div>
     <script defer src={jspath}></script>
   </body>
 }

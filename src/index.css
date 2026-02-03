@@ -6,11 +6,11 @@ body {
   font-family: "Droid Sans Mono", "monospace", monospace;
 }
 
-#phidden {
+#phiddenDiv {
   white-space: pre-line;
 }
 
-#len {
+#lenInput {
   width: 4rem;
 }
 
@@ -19,7 +19,7 @@ body {
   pointer-events: none;
 }
 
-#custom_mode:checked ~ #checkboxs {
+#customModeRadio:checked ~ #checkboxs {
   opacity: 1;
   pointer-events: auto;
 }

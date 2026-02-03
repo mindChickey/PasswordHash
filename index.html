@@ -6,11 +6,11 @@ body {
   font-family: "Droid Sans Mono", "monospace", monospace;
 }
 
-#phidden {
+#phiddenDiv {
   white-space: pre-line;
 }
 
-#len {
+#lenInput {
   width: 4rem;
 }
 
@@ -19,7 +19,7 @@ body {
   pointer-events: none;
 }
 
-#custom_mode:checked ~ #checkboxs {
+#customModeRadio:checked ~ #checkboxs {
   opacity: 1;
   pointer-events: auto;
-}</style></head><body><div><div><input value="hand_mode" id="hand_mode" name="mode" type="radio"><label for="hand_mode">Hand write</label></div><div><input value="digit_mode" id="digit_mode" name="mode" type="radio"><label for="digit_mode">6 digit</label></div><div><input checked="true" value="custom_mode" id="custom_mode" name="mode" type="radio"><label for="custom_mode">Custom</label><div id="checkboxs"><input checked="true" name="upper" id="upper" type="checkbox"><label for="upper">upper</label><input checked="true" name="lower" id="lower" type="checkbox"><label for="lower">lower</label><input checked="true" name="number" id="number" type="checkbox"><label for="number">number</label><input value="15" max="30" min="1" id="len" type="number"></div></div></div><div><input id="passwordInput" type="password"><button id="enter">Enter</button></div><div><div id="phidden"></div><input name="show" id="show" type="checkbox"><label for="show">show</label></div><div><input checked="true" name="auto_copy" id="auto_copy" type="checkbox"><label for="auto_copy">auto copy</label></div><div id="tips"></div><script src="./out/popup.js" defer="true"></script></body></html>
+}</style></head><body><div id="modeContainer"><div><input value="hand_mode" id="handModeRadio" name="mode" type="radio"><label for="handModeRadio">Hand write</label></div><div><input value="digit_mode" id="digitModeRadio" name="mode" type="radio"><label for="digitModeRadio">6 digit</label></div><div><input checked="true" value="custom_mode" id="customModeRadio" name="mode" type="radio"><label for="customModeRadio">Custom</label><div id="checkboxs"><input checked="true" name="upper" id="upperCheckBox" type="checkbox"><label for="upperCheckBox">upper</label><input checked="true" name="lower" id="lowerCheckBox" type="checkbox"><label for="lowerCheckBox">lower</label><input checked="true" name="number" id="numberCheckBox" type="checkbox"><label for="numberCheckBox">number</label><input value="15" max="30" min="1" id="lenInput" type="number"></div></div></div><div><input id="passwordInput" type="password"><button id="enterButton">Enter</button></div><div><div id="phiddenDiv"></div><input name="show" id="showCheckBox" type="checkbox"><label for="showCheckBox">show</label></div><div><input checked="true" name="auto_copy" id="autoCopyCheckBox" type="checkbox"><label for="autoCopyCheckBox">auto copy</label></div><div id="tipsDiv"></div><script src="./out/popup.js" defer="true"></script></body></html>
