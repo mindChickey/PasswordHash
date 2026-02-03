@@ -1,5 +1,5 @@
 
-import { initInteract } from "./interact"
+import { initInteract, domainInput, passwordInput } from "./interact"
 
 async function getActiveTabSLD() {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -24,8 +24,10 @@ async function initPopup(){
   initInteract()
   let domain = await getActiveTabSLD()
   if(domain){
-    let domainInput = document.getElementById("domainInput") as HTMLInputElement
     domainInput.value = domain
+    passwordInput.focus()
+  } else {
+    domainInput.focus()
   }
 }
 

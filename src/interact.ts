@@ -2,8 +2,8 @@
 import { convert, convertHandWrite } from "./hash"
 import { getCustomOptions, getOptional, initOptional, Mode, OptionalT, setShowCheckBoxChange } from "./optional"
 
-let domainInput = document.getElementById("domainInput") as HTMLInputElement
-let passwordInput = document.getElementById("passwordInput") as HTMLInputElement
+export let domainInput = document.getElementById("domainInput") as HTMLInputElement
+export let passwordInput = document.getElementById("passwordInput") as HTMLInputElement
 let enterButton = document.getElementById("enterButton") as HTMLButtonElement
 let phiddenDiv = document.getElementById("phiddenDiv") as HTMLDivElement
 let tipsDiv = document.getElementById("tipsDiv") as HTMLDivElement
@@ -60,5 +60,4 @@ export function initInteract(){
   initOptional()
   enterButton.onclick = enter
   passwordInput.onkeyup = passwordKeyup
-  domainInput.focus()
 }
