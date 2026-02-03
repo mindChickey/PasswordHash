@@ -3,13 +3,14 @@ import { createElement, readContent, Select } from "jasser"
 
 function Head() {
   return <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>{readContent(__dirname, "./index.css")}</style>
   </head>
 }
 
 function PasswordGroup() {
-  return <div>
+  return <div class="flex-row">
     <input type="password" id="passwordInput" />
     <button id="enterButton">Enter</button>
   </div>
@@ -63,12 +64,14 @@ function AutoCopy(){
 
 function Body({ jspath }: { jspath: string }) {
   return <body>
-    <ModeGroup />
-    <input type="number" id="lenInput" min={1} max={30} value={15} />
-    <PasswordGroup />
-    <Show />
-    <AutoCopy />
-    <div id="tipsDiv"></div>
+    <div class="container">
+      <ModeGroup />
+      <input type="number" id="lenInput" min={1} max={30} value={15} />
+      <PasswordGroup />
+      <Show />
+      <AutoCopy />
+      <div id="tipsDiv"></div>
+    </div>
     <script defer src={jspath}></script>
   </body>
 }

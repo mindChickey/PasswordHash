@@ -5,7 +5,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "bun run src/build.tsx"
+    "build": "bun run src/build.tsx",
+    "watch": "bun --watch src/build.tsx"
   },
   "dependencies": {
     "jasser": "^1.1.2"

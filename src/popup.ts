@@ -13,7 +13,6 @@ let lowerCheckBox = document.getElementById("lowerCheckBox") as HTMLInputElement
 let numberCheckBox = document.getElementById("numberCheckBox") as HTMLInputElement
 let lenInput = document.getElementById("lenInput") as HTMLInputElement
 
-let modeContainer = document.getElementById("modeContainer") as HTMLDivElement
 let customModeRadio = document.getElementById("customModeRadio") as HTMLInputElement
 let handModeRadio = document.getElementById("handModeRadio") as HTMLInputElement
 let digitModeRadio = document.getElementById("digitModeRadio") as HTMLInputElement
@@ -76,23 +75,27 @@ passwordInput.onkeyup = (e) => {
   }
 }
 
-function handleModeChange(mode: string){
-  if(mode === 'custom_mode'){
+customModeRadio.onchange = () => {
+  if(customModeRadio.checked){
     autoCopyCheckBox.checked = true
     showCheckBox.checked = false
     lenInput.value = "15"
-  } else {
-    autoCopyCheckBox.checked = false
-    showCheckBox.checked = true
-    lenInput.value = mode === "hand_mode" ? "10" : "6"
   }
 }
 
-modeContainer.onchange = (event: any) =>{
-  if(!event.target) {
-    return
-  } else if (event.target.name === 'mode') {
-    handleModeChange(event.target.value)
+handModeRadio.onchange = () => {
+  if(handModeRadio.checked){
+    autoCopyCheckBox.checked = false
+    showCheckBox.checked = true
+    lenInput.value = "10"
+  }
+}
+
+digitModeRadio.onchange = () => {
+  if(digitModeRadio.checked){
+    autoCopyCheckBox.checked = false
+    showCheckBox.checked = true
+    lenInput.value = "6"
   }
 }
 

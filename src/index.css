@@ -1,25 +1,88 @@
-
 body {
-  background-color: #FEFEFE;
-  padding: 4px;
-  line-height: 3rem;
-  font-family: "Droid Sans Mono", "monospace", monospace;
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
-#phiddenDiv {
-  white-space: pre-line;
+.container {
+  padding: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+#modeContainer>div {
+  margin-bottom: 10px;
+}
+
+#modeContainer label {
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 #lenInput {
-  width: 4rem;
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+#passwordInput {
+  flex: 1;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+}
+
+#enterButton {
+  height: 40px;
+  padding: 0 20px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+}
+
+#phiddenDiv {
+  background: #f1f3f5;
+  padding: 12px;
+  border-radius: 6px;
+  min-height: 1.5rem;
+  margin: 15px 0 5px 0;
+  word-break: break-all;
+  white-space: pre-line;
+  font-family: monospace;
 }
 
 #checkboxs {
+  margin: 10px 0 10px 25px;
+  padding: 8px;
+  background: #f9f9f9;
+  border-radius: 6px;
   opacity: 0.5;
   pointer-events: none;
+  transition: opacity 0.2s;
 }
 
-#customModeRadio:checked ~ #checkboxs {
+#customModeRadio:checked~#checkboxs {
   opacity: 1;
   pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
