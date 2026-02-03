@@ -9,27 +9,32 @@ function Head() {
   </head>
 }
 
-function PasswordGroup() {
-  return <div class="flex-row">
-    <input type="password" id="passwordInput" />
-    <button id="enterButton">Enter</button>
+function Mode({id, title}:{id: string, title: string}){
+  return <div>
+    <input type="radio" name="mode" id={id} />
+    <label for={id}>{title}</label>
   </div>
 }
 
 function ModeGroup() {
   return <div id="modeContainer">
-    <div>
-      <input type="radio" name="mode" id="handModeRadio" value="hand_mode" />
-      <label for="handModeRadio">Hand write</label>
-    </div>
-    <div>
-      <input type="radio" name="mode" id="digitModeRadio" value="digit_mode" />
-      <label for="digitModeRadio">Digit</label>
-    </div>
-    <div>
-      <input type="radio" name="mode" id="stableModeRadio" value="stable_mode" checked/>
-      <label for="stableModeRadio">Stable</label>
-    </div>
+    <Mode id="handModeRadio" title="Handwritten" />
+    <Mode id="digitModeRadio" title="Digit" />
+    <Mode id="stableModeRadio" title="Stable" />
+  </div>
+}
+
+function LengthGroup(){
+  return <div class="flex-row">
+    <div>Length:</div>
+    <input type="number" id="lenInput" min={3} max={30} value={15} />
+  </div>
+}
+
+function PasswordGroup() {
+  return <div class="flex-row">
+    <input type="password" id="passwordInput" />
+    <button id="enterButton">Enter</button>
   </div>
 }
 
@@ -48,14 +53,20 @@ function AutoCopy(){
   </div>
 }
 
+function ResultCheckBox(){
+  return <div>
+    <Show />
+    <AutoCopy />
+  </div>
+}
+
 function Body({ jspath }: { jspath: string }) {
   return <body>
     <div class="container">
       <ModeGroup />
-      <input type="number" id="lenInput" min={3} max={30} value={15} />
+      <LengthGroup />
       <PasswordGroup />
-      <Show />
-      <AutoCopy />
+      <ResultCheckBox />
       <div id="tipsDiv"></div>
     </div>
     <script defer src={jspath}></script>
