@@ -21,11 +21,12 @@ function showPHidden(show: boolean, text: string, password: string) {
 }
 
 async function convert1(optional: OptionalT, text: string){
+  let len = optional.len
   if(optional.mode === Mode.Hand){
-    return await convertHandWrite(text, optional.len)
+    return await convertHandWrite(text, len)
   } else {
     let customOptions = getCustomOptions()
-    return await convert(text, customOptions, optional.len)
+    return await convert(text, customOptions, len)
   }
 }
 

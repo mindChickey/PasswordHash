@@ -16,19 +16,6 @@ function PasswordGroup() {
   </div>
 }
 
-function CheckBoxGroup() {
-  return <div id="checkboxs">
-    <input type="checkbox" id="upperCheckBox" name="upper" checked />
-    <label for="upperCheckBox">upper</label>
-
-    <input type="checkbox" id="lowerCheckBox" name="lower" checked />
-    <label for="lowerCheckBox">lower</label>
-
-    <input type="checkbox" id="numberCheckBox" name="number" checked />
-    <label for="numberCheckBox">number</label>
-  </div>
-}
-
 function ModeGroup() {
   return <div id="modeContainer">
     <div>
@@ -40,9 +27,8 @@ function ModeGroup() {
       <label for="digitModeRadio">Digit</label>
     </div>
     <div>
-      <input type="radio" name="mode" id="customModeRadio" value="custom_mode" checked/>
-      <label for="customModeRadio">Custom</label>
-      <CheckBoxGroup />
+      <input type="radio" name="mode" id="stableModeRadio" value="stable_mode" checked/>
+      <label for="stableModeRadio">Stable</label>
     </div>
   </div>
 }
@@ -66,7 +52,7 @@ function Body({ jspath }: { jspath: string }) {
   return <body>
     <div class="container">
       <ModeGroup />
-      <input type="number" id="lenInput" min={1} max={30} value={15} />
+      <input type="number" id="lenInput" min={3} max={30} value={15} />
       <PasswordGroup />
       <Show />
       <AutoCopy />

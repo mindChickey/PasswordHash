@@ -5,15 +5,12 @@
   justify-content: center;
 }
 
-/* 2. 主容器：保持逻辑结构，增加视觉包裹感 */
 .container {
   padding: 16px;
   width: 100%;
   max-width: 400px;
-  /* PC端限制宽度 */
 }
 
-/* 3. 布局排版：让原本散乱的 div 变得整齐 */
 #modeContainer>div {
   margin-bottom: 10px;
 }
@@ -23,7 +20,6 @@
   cursor: pointer;
 }
 
-/* 4. 重点控件美化 */
 #lenInput {
   width: 100%;
   height: 36px;
@@ -32,7 +28,6 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   box-sizing: border-box;
-  /* 防止宽度溢出 */
 }
 
 #passwordInput {
@@ -54,7 +49,6 @@
   cursor: pointer;
 }
 
-/* 5. 结果展示区 */
 #phiddenDiv {
   background: #f1f3f5;
   padding: 12px;
@@ -66,32 +60,19 @@
   font-family: monospace;
 }
 
-/* 6. 原有逻辑样式：保留并优化 */
-#checkboxs {
-  margin: 10px 0 10px 25px;
-  padding: 8px;
-  background: #f9f9f9;
-  border-radius: 6px;
-  opacity: 0.5;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-
-#customModeRadio:checked~#checkboxs {
+#stableModeRadio:checked~#checkboxs {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* 7. 响应式微调 */
 @media (max-width: 480px) {
   body {
     padding: 10px;
   }
 }
 
-/* 辅助类：让输入框和按钮在一行 */
 .flex-row {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-}</style></head><body><div class="container"><div id="modeContainer"><div><input value="hand_mode" id="handModeRadio" name="mode" type="radio"><label for="handModeRadio">Hand write</label></div><div><input value="digit_mode" id="digitModeRadio" name="mode" type="radio"><label for="digitModeRadio">Digit</label></div><div><input checked="true" value="custom_mode" id="customModeRadio" name="mode" type="radio"><label for="customModeRadio">Custom</label><div id="checkboxs"><input checked="true" name="upper" id="upperCheckBox" type="checkbox"><label for="upperCheckBox">upper</label><input checked="true" name="lower" id="lowerCheckBox" type="checkbox"><label for="lowerCheckBox">lower</label><input checked="true" name="number" id="numberCheckBox" type="checkbox"><label for="numberCheckBox">number</label></div></div></div><input value="15" max="30" min="1" id="lenInput" type="number"><div class="flex-row"><input id="passwordInput" type="password"><button id="enterButton">Enter</button></div><div><div id="phiddenDiv"></div><input name="show" id="showCheckBox" type="checkbox"><label for="showCheckBox">show</label></div><div><input checked="true" name="auto_copy" id="autoCopyCheckBox" type="checkbox"><label for="autoCopyCheckBox">auto copy</label></div><div id="tipsDiv"></div></div><script src="./out/popup.js" defer="true"></script></body></html>
+}</style></head><body><div class="container"><div id="modeContainer"><div><input value="hand_mode" id="handModeRadio" name="mode" type="radio"><label for="handModeRadio">Hand write</label></div><div><input value="digit_mode" id="digitModeRadio" name="mode" type="radio"><label for="digitModeRadio">Digit</label></div><div><input checked="true" value="stable_mode" id="stableModeRadio" name="mode" type="radio"><label for="stableModeRadio">Stable</label></div></div><input value="15" max="30" min="3" id="lenInput" type="number"><div class="flex-row"><input id="passwordInput" type="password"><button id="enterButton">Enter</button></div><div><div id="phiddenDiv"></div><input name="show" id="showCheckBox" type="checkbox"><label for="showCheckBox">show</label></div><div><input checked="true" name="auto_copy" id="autoCopyCheckBox" type="checkbox"><label for="autoCopyCheckBox">auto copy</label></div><div id="tipsDiv"></div></div><script src="./out/popup.js" defer="true"></script></body></html>

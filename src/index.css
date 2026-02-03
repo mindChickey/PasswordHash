@@ -60,17 +60,7 @@ body {
   font-family: monospace;
 }
 
-#checkboxs {
-  margin: 10px 0 10px 25px;
-  padding: 8px;
-  background: #f9f9f9;
-  border-radius: 6px;
-  opacity: 0.5;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-
-#customModeRadio:checked~#checkboxs {
+#stableModeRadio:checked~#checkboxs {
   opacity: 1;
   pointer-events: auto;
 }

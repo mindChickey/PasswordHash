@@ -1,9 +1,5 @@
 
-let upperCheckBox = document.getElementById("upperCheckBox") as HTMLInputElement
-let lowerCheckBox = document.getElementById("lowerCheckBox") as HTMLInputElement
-let numberCheckBox = document.getElementById("numberCheckBox") as HTMLInputElement
-
-let customModeRadio = document.getElementById("customModeRadio") as HTMLInputElement
+let stableModeRadio = document.getElementById("stableModeRadio") as HTMLInputElement
 let handModeRadio = document.getElementById("handModeRadio") as HTMLInputElement
 let digitModeRadio = document.getElementById("digitModeRadio") as HTMLInputElement
 
@@ -12,7 +8,7 @@ let lenInput = document.getElementById("lenInput") as HTMLInputElement
 let showCheckBox = document.getElementById("showCheckBox") as HTMLInputElement
 let autoCopyCheckBox = document.getElementById("autoCopyCheckBox") as HTMLInputElement
 
-export enum Mode { Custom, Hand, Digit }
+export enum Mode { Stable, Hand, Digit }
 
 export type OptionalT = {
   mode: Mode
@@ -25,16 +21,13 @@ export function getCustomOptions(){
   if(digitModeRadio.checked){
     return { hasUpper: false, hasLower: false, hasNumber: true }
   } else {
-    let hasUpper = upperCheckBox.checked
-    let hasLower = lowerCheckBox.checked
-    let hasNumber = numberCheckBox.checked
-    return { hasUpper, hasLower, hasNumber }
+    return { hasUpper: true, hasLower: true, hasNumber: true }
   }
 }
 
 function getMode(){
-  if(customModeRadio.checked){
-    return Mode.Custom
+  if(stableModeRadio.checked){
+    return Mode.Stable
   } else if(handModeRadio.checked){
     return Mode.Hand
   } else {
@@ -68,5 +61,5 @@ function setRadioChange(radio: HTMLInputElement, autoCopy: boolean, show: boolea
 export function initOptional(){
   setRadioChange(handModeRadio, false, true, 10)
   setRadioChange(digitModeRadio, false, true, 6)
-  setRadioChange(customModeRadio, true, false, 15)
+  setRadioChange(stableModeRadio, true, false, 15)
 }
