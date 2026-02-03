@@ -1,9 +1,8 @@
  
-type OptionsT = {
-  hasUpper: boolean,
-  hasLower: boolean,
-  hasNumber: boolean,
-  len: number
+export type CustomOptionT = {
+  hasUpper: boolean
+  hasLower: boolean
+  hasNumber: boolean
 }
 
 let UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -40,14 +39,14 @@ function convertCharSet(arr: Uint8Array<ArrayBuffer>, charSet: string){
   return crr.join("")
 }
 
-function convertPrefix(arrs: Uint8Array<ArrayBuffer>[], options: OptionsT) {
+function convertPrefix(arrs: Uint8Array<ArrayBuffer>[], options: CustomOptionT) {
   let char0 = options.hasUpper ? convertCharSet(arrs[0], UPPERCASE_CHARS) : ""
   let char1 = options.hasLower ? convertCharSet(arrs[1], LOWERCASE_CHARS) : ""
   let char2 = options.hasNumber ? convertCharSet(arrs[2], NUMBER_CHARS) : ""
   return char0 + char1 + char2
 }
 
-function convertMain(arr: Uint8Array<ArrayBuffer>, options: OptionsT) {
+function convertMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
   let chars0 = options.hasUpper ? UPPERCASE_CHARS : ""
   let chars1 = options.hasLower ? LOWERCASE_CHARS : ""
   let chars2 = options.hasNumber ? NUMBER_CHARS : ""
@@ -55,12 +54,12 @@ function convertMain(arr: Uint8Array<ArrayBuffer>, options: OptionsT) {
   return convertCharSet(arr, chars)
 }
 
-export async function convert(text: string, options: OptionsT) {
+export async function convert(text: string, options: CustomOptionT, len: number) {
   let arr = await deriveKey(text, "PasswordHash", 1000000, 256)
-  let arrs = splitArray(arr, [1, 1, 1, options.len])
+  let arrs = splitArray(arr, [1, 1, 1, len])
 
   let prefix = convertPrefix(arrs, options)
-  let arr1 = arrs[3].slice(0, options.len - prefix.length)
+  let arr1 = arrs[3].slice(0, len - prefix.length)
   let str = convertMain(arr1, options)
   return prefix + str
 }
