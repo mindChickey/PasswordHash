@@ -22,16 +22,17 @@ function Mode({id, title}:{id: string, title: string}){
 
 function ModeGroup() {
   return <div id="modeContainer">
+    <Mode id="stableModeRadio" title="Stable" />
     <Mode id="handModeRadio" title="Handwritten" />
     <Mode id="digitModeRadio" title="Digit" />
-    <Mode id="stableModeRadio" title="Stable" />
+    <Mode id="hexModeRadio" title="Hex" />
   </div>
 }
 
 function LengthGroup(){
   return <div class="flex-row">
     <div>Length:</div>
-    <input type="number" id="lenInput" min={3} max={30} value={15} />
+    <input type="number" id="lenInput" min={1} max={32} value={15} />
   </div>
 }
 

@@ -2,13 +2,14 @@
 let stableModeRadio = document.getElementById("stableModeRadio") as HTMLInputElement
 let handModeRadio = document.getElementById("handModeRadio") as HTMLInputElement
 let digitModeRadio = document.getElementById("digitModeRadio") as HTMLInputElement
+let hexModeRadio = document.getElementById("hexModeRadio") as HTMLInputElement
 
 let lenInput = document.getElementById("lenInput") as HTMLInputElement
 
 let showCheckBox = document.getElementById("showCheckBox") as HTMLInputElement
 let autoCopyCheckBox = document.getElementById("autoCopyCheckBox") as HTMLInputElement
 
-export enum Mode { Stable, Hand, Digit }
+export enum Mode { Stable, Hand, Digit, Hex }
 
 export type OptionalT = {
   mode: Mode
@@ -30,8 +31,10 @@ function getMode(){
     return Mode.Stable
   } else if(handModeRadio.checked){
     return Mode.Hand
-  } else {
+  } else if(digitModeRadio.checked){
     return Mode.Digit
+  } else {
+    return Mode.Hex
   }
 }
 
@@ -62,5 +65,6 @@ export function initOptional(){
   setRadioChange(handModeRadio, false, true, 10)
   setRadioChange(digitModeRadio, false, true, 6)
   setRadioChange(stableModeRadio, true, false, 15)
+  setRadioChange(hexModeRadio, true, false, 16)
   stableModeRadio.checked = true
 }

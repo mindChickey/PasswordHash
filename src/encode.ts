@@ -9,19 +9,6 @@ let UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 let LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
 let NUMBER_CHARS = "0123456789"                   
 
-async function deriveKey(salt: string, password: string, iterations: number, keyLength: number) {
-  let enc = new TextEncoder()
-  let passwordBuffer = enc.encode(password)
-  let saltBuffer = enc.encode(salt)
-
-  let importedKey = await crypto.subtle.importKey(
-    'raw', passwordBuffer, { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey'])
-
-  let algo = { name: 'PBKDF2', salt: saltBuffer, iterations: iterations, hash: 'SHA-256' }
-  let derivedKeyBuffer = await crypto.subtle.deriveBits(algo, importedKey, keyLength)
-  return new Uint8Array(derivedKeyBuffer)
-}
-
 function splitArray(arr: Uint8Array<ArrayBuffer>, lens: number[]){
   let arrs = []
   let index = 0
@@ -39,14 +26,14 @@ function convertCharSet(arr: Uint8Array<ArrayBuffer>, charSet: string){
   return crr.join("")
 }
 
-function convertPrefix(arrs: Uint8Array<ArrayBuffer>[], options: CustomOptionT) {
+function encodePrefix(arrs: Uint8Array<ArrayBuffer>[], options: CustomOptionT) {
   let char0 = options.hasUpper ? convertCharSet(arrs[0], UPPERCASE_CHARS) : ""
   let char1 = options.hasLower ? convertCharSet(arrs[1], LOWERCASE_CHARS) : ""
   let char2 = options.hasNumber ? convertCharSet(arrs[2], NUMBER_CHARS) : ""
   return char0 + char1 + char2
 }
 
-function convertMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
+function encodeMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
   let chars0 = options.hasUpper ? UPPERCASE_CHARS : ""
   let chars1 = options.hasLower ? LOWERCASE_CHARS : ""
   let chars2 = options.hasNumber ? NUMBER_CHARS : ""
@@ -54,23 +41,23 @@ function convertMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
   return convertCharSet(arr, chars)
 }
 
-export async function convert(domain: string, text: string, len: number, options: CustomOptionT) {
-  let salt = domain + len
-  let arr = await deriveKey(salt, text, 1000000, 256)
-  let arrs = splitArray(arr, [1, 1, 1, len])
+export function encode(key: Uint8Array<ArrayBuffer>, len: number, options: CustomOptionT) {
+  let arrs = splitArray(key, [1, 1, 1])
+  let prefix = encodePrefix(arrs, options)
 
-  let prefix = convertPrefix(arrs, options)
-  let arr1 = arrs[3].slice(0, len - prefix.length)
-  let str = convertMain(arr1, options)
-  return prefix + str
+  let str = encodeMain(key.subarray(0, len), options)
+  if(len <= prefix.length){
+    return str
+  } else {
+    let str1 = str.substring(prefix.length)
+    return prefix + str1
+  }
 }
 
-export async function convertHandWrite(domain: string, text: string, len: number){
-  let salt = domain + len
-  let arr = await deriveKey(salt, text, 1000000, 256)
+export function encodeHandWrite(key: Uint8Array<ArrayBuffer>, len: number){
   let letterLen = Math.ceil(len / 3)
   let digitLen = len - 2 * letterLen
-  let arrs = splitArray(arr, [letterLen, letterLen, digitLen])
+  let arrs = splitArray(key, [letterLen, letterLen, digitLen])
 
   let upper_chars = UPPERCASE_CHARS.replace(/[OI]/g, '')
   let lower_chars = LOWERCASE_CHARS.replace(/[ol]/g, '')
@@ -80,6 +67,15 @@ export async function convertHandWrite(domain: string, text: string, len: number
   let digits = convertCharSet(arrs[2], number_chars)
 
   return uppers + lowers + digits
+}
+
+export function encodeHex(key: Uint8Array<ArrayBuffer>, len: number){
+  let hexOctets: string[] = []
+  let lengthToProcess = len / 2
+  for (let i = 0; i < lengthToProcess; i++) {
+    hexOctets.push(key[i].toString(16).padStart(2, '0'))
+  }
+  return hexOctets.join('').slice(0, len)
 }
 
 /*

@@ -1,5 +1,6 @@
 
-import { convert, convertHandWrite } from "./hash"
+import { encode, encodeHandWrite, encodeHex } from "./encode"
+import { deriveKey } from "./deriveKey"
 import { getCustomOptions, getOptional, initOptional, Mode, OptionalT, setShowCheckBoxChange } from "./optional"
 
 export let domainInput = document.getElementById("domainInput") as HTMLInputElement
@@ -22,13 +23,15 @@ function showPHidden(text: string, password: string) {
   }
 }
 
-async function convert1(optional: OptionalT, domain: string, text: string){
+function encode1(key: Uint8Array<ArrayBuffer>, optional: OptionalT){
   let len = optional.len
   if(optional.mode === Mode.Hand){
-    return await convertHandWrite(domain, text, len)
+    return encodeHandWrite(key, len)
+  } else if(optional.mode === Mode.Hex){
+    return encodeHex(key, len)
   } else {
     let customOptions = getCustomOptions()
-    return await convert(domain, text, len, customOptions)
+    return encode(key, len, customOptions)
   }
 }
 
@@ -36,7 +39,9 @@ async function enter(){
   let domain = domainInput.value
   let text = passwordInput.value
   let optional = getOptional()
-  let password = await convert1(optional, domain, text)
+
+  let key = await deriveKey(domain, text, optional.len)
+  let password = encode1(key, optional)
 
   let set_show = () => showPHidden(text, password)
   set_show()

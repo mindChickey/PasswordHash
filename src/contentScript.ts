@@ -1,7 +1,5 @@
-
-import { convert } from "./hash"
-
-let defaultOptions = { hasUpper: true, hasLower: true, hasNumber: true }
+import { encode } from "./encode"
+import { deriveKey } from "./deriveKey"
 
 function getSecondLevelDomain() {
   const hostname = window.location.hostname
@@ -13,11 +11,17 @@ function getSecondLevelDomain() {
   }
 }
 
+async function defaultConvert(domain: string, text: string) {
+  let defaultOptions = { hasUpper: true, hasLower: true, hasNumber: true }
+  let len = 15
+  let key = await deriveKey(domain, text, len)
+  return encode(key, len, defaultOptions)
+}
+
 async function forInput(element: HTMLInputElement | HTMLTextAreaElement) {
   let domain = getSecondLevelDomain()
   if(domain){
-    let text0 = element.value
-    element.value = await convert(domain, text0, 15, defaultOptions)
+    element.value = await defaultConvert(domain, element.value)
     element.dispatchEvent(new Event('input'))
     element.dispatchEvent(new Event('change'))
   }
@@ -26,8 +30,7 @@ async function forInput(element: HTMLInputElement | HTMLTextAreaElement) {
 async function forEditable(element: HTMLElement) {
   let domain = getSecondLevelDomain()
   if(domain){
-    let text0 = element.textContent
-    element.textContent = await convert(domain, text0, 15, defaultOptions)
+    element.textContent = await defaultConvert(domain, element.textContent)
     element.dispatchEvent(new Event('input'))
   }
 }
