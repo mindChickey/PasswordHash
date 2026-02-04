@@ -16,8 +16,8 @@ function getSecondLevelDomain() {
 async function forInput(element: HTMLInputElement | HTMLTextAreaElement) {
   let domain = getSecondLevelDomain()
   if(domain){
-    let text0 = domain + element.value
-    element.value = await convert(text0, defaultOptions, 15)
+    let text0 = element.value
+    element.value = await convert(domain, text0, 15, defaultOptions)
     element.dispatchEvent(new Event('input'))
     element.dispatchEvent(new Event('change'))
   }
@@ -26,8 +26,8 @@ async function forInput(element: HTMLInputElement | HTMLTextAreaElement) {
 async function forEditable(element: HTMLElement) {
   let domain = getSecondLevelDomain()
   if(domain){
-    let text0 = domain + element.textContent
-    element.textContent = await convert(text0, defaultOptions, 15)
+    let text0 = element.textContent
+    element.textContent = await convert(domain, text0, 15, defaultOptions)
     element.dispatchEvent(new Event('input'))
   }
 }

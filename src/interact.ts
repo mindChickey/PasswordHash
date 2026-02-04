@@ -22,13 +22,13 @@ function showPHidden(text: string, password: string) {
   }
 }
 
-async function convert1(optional: OptionalT, text: string){
+async function convert1(optional: OptionalT, domain: string, text: string){
   let len = optional.len
   if(optional.mode === Mode.Hand){
-    return await convertHandWrite(text, len)
+    return await convertHandWrite(domain, text, len)
   } else {
     let customOptions = getCustomOptions()
-    return await convert(text, customOptions, len)
+    return await convert(domain, text, len, customOptions)
   }
 }
 
@@ -36,7 +36,7 @@ async function enter(){
   let domain = domainInput.value
   let text = passwordInput.value
   let optional = getOptional()
-  let password = await convert1(optional, domain + text)
+  let password = await convert1(optional, domain, text)
 
   let set_show = () => showPHidden(text, password)
   set_show()

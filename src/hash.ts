@@ -9,7 +9,7 @@ let UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 let LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
 let NUMBER_CHARS = "0123456789"                   
 
-async function deriveKey(password: string, salt: string, iterations: number, keyLength: number) {
+async function deriveKey(salt: string, password: string, iterations: number, keyLength: number) {
   let enc = new TextEncoder()
   let passwordBuffer = enc.encode(password)
   let saltBuffer = enc.encode(salt)
@@ -54,8 +54,9 @@ function convertMain(arr: Uint8Array<ArrayBuffer>, options: CustomOptionT) {
   return convertCharSet(arr, chars)
 }
 
-export async function convert(text: string, options: CustomOptionT, len: number) {
-  let arr = await deriveKey(text, len.toString(), 1000000, 256)
+export async function convert(domain: string, text: string, len: number, options: CustomOptionT) {
+  let salt = domain + len
+  let arr = await deriveKey(salt, text, 1000000, 256)
   let arrs = splitArray(arr, [1, 1, 1, len])
 
   let prefix = convertPrefix(arrs, options)
@@ -64,8 +65,9 @@ export async function convert(text: string, options: CustomOptionT, len: number)
   return prefix + str
 }
 
-export async function convertHandWrite(text: string, len: number){
-  let arr = await deriveKey(text, len.toString(), 1000000, 256)
+export async function convertHandWrite(domain: string, text: string, len: number){
+  let salt = domain + len
+  let arr = await deriveKey(salt, text, 1000000, 256)
   let letterLen = Math.ceil(len / 3)
   let digitLen = len - 2 * letterLen
   let arrs = splitArray(arr, [letterLen, letterLen, digitLen])
