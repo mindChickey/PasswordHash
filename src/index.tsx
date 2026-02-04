@@ -5,6 +5,10 @@ function Head() {
   return <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Light Pass</title>
+    <meta name="keywords" content="password" />
+    <meta name="description" content="password" />
+    <link rel="icon" href="./icon.svg" type="image/svg" />
     <style>{readContent(__dirname, "./index.css")}</style>
   </head>
 }
