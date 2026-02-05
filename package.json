@@ -1,19 +1,16 @@
 {
-  "name": "password-hash",
-  "version": "3.1.2",
+  "name": "lightpass",
+  "version": "3.1.3",
   "description": "",
   "author": "",
   "license": "ISC",
   "scripts": {
-    "watch_scripts": "bun build ./src/background.ts ./src/contentScript.ts ./src/popup.ts ./src/index.ts --outdir ./out --target browser --watch",
-    "watch_html": "bun --watch src/build.tsx",
-    "watch": "bun run watch_scripts & bun run watch_html"
+    "watch": "bun build ./src/background.ts ./src/contentScript.ts ./src/popup.ts ./src/index.ts --outdir ./out --target browser --watch",
+    "build": "bun build ./src/background.ts ./src/contentScript.ts ./src/popup.ts ./src/index.ts --outdir ./out --target browser"
   },
   "dependencies": {
-    "jasser": "^1.1.2"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.23",
     "@types/chrome": "^0.1.19"
   }
 }

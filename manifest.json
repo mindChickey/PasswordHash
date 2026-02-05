@@ -1,6 +1,6 @@
 
 {
-  "name": "Password Hash",
+  "name": "LightPass",
   "version": "3.2.0",
   "manifest_version": 3,
   "background": {
@@ -15,14 +15,14 @@
   ],
   "commands": {
     "hash-password": {
-      "description": "Convert your password into a hash",
+      "description": "LightPass: Convert password to hash",
       "suggested_key": {
         "default": "Alt+H"
       }
     }
   },
 	"action": {
-		"default_title": "Password Hash",
-		"default_popup": "out/popup.html"
+		"default_title": "LightPass",
+		"default_popup": "index.html"
   }
 }

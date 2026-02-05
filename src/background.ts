@@ -1,14 +1,14 @@
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
-    id: "passwordHash",
+    id: "LightPass",
     title: "convert password to hash",
     contexts: ["editable"],
   })
 })
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (tab?.id && info.menuItemId === "passwordHash") {
+  if (tab?.id && info.menuItemId === "LightPass") {
     chrome.tabs.sendMessage(tab.id, {kind: "convert"})
   }
 })
