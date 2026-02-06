@@ -4,13 +4,13 @@
   "version": "3.2.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "out/background.js"
+    "service_worker": "public/background.js"
   },
   "permissions": ["contextMenus", "storage", "clipboardWrite", "activeTab"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["out/contentScript.js"]
+      "js": ["public/contentScript.js"]
     }
   ],
   "commands": {
@@ -23,18 +23,18 @@
   },
 	"action": {
 		"default_title": "LightPass",
-		"default_popup": "./index.html",
+		"default_popup": "public/popup.html",
     "default_icon": {
-      "16":  "./image/icon16.png",
-      "32":  "./image/icon32.png",
-      "48":  "./image/icon48.png",
-      "128": "./image/icon128.png"
+      "16":  "public/image/icon16.png",
+      "32":  "public/image/icon32.png",
+      "48":  "public/image/icon48.png",
+      "128": "public/image/icon128.png"
     }
   },
   "icons": {
-    "16":  "./image/icon16.png",
-    "32":  "./image/icon32.png",
-    "48":  "./image/icon48.png",
-    "128": "./image/icon128.png"
+    "16":  "public/image/icon16.png",
+    "32":  "public/image/icon32.png",
+    "48":  "public/image/icon48.png",
+    "128": "public/image/icon128.png"
   }
 }

@@ -6,13 +6,12 @@ import { HomePage } from './homePage'
 async function buildIndex(rootDir: string){
   initNode()
   let r0 = writeRouteHtml(rootDir, "/index.html", <HomePage jspath="./index.js"/>)
-  let r1 = writeRouteHtml(".", "/index.html", <HomePage jspath="./out/index.js"/>)
-  let r2 = writeRouteHtml(rootDir, "/popup.html", <HomePage jspath="./popup.js"/>)
-  return Promise.all([r0, r1, r2])
+  let r1 = writeRouteHtml(rootDir, "/popup.html", <HomePage jspath="./popup.js"/>)
+  return Promise.all([r0, r1])
 }
 
 async function main() {
-  let outdir = "./out"
+  let outdir = "./public"
   const result = await build({
     entrypoints: [
       './src/background.ts',

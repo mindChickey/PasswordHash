@@ -7,7 +7,8 @@
   "scripts": {
     "watch_scripts": "bun build ./src/background.ts ./src/contentScript.ts ./src/popup.ts ./src/index.ts --outdir ./out --target browser --watch",
     "watch_html": "bun --watch src/build.tsx",
-    "watch": "bun run watch_scripts & bun run watch_html"
+    "watch": "bun run watch_scripts & bun run watch_html",
+    "build": "bun run src/build.tsx"
   },
   "dependencies": {
     "jasser": "^1.1.5"
