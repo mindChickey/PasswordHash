@@ -1,5 +1,5 @@
 {
-  "name": "password-hash",
+  "name": "lightpass",
   "version": "3.1.2",
   "description": "",
   "author": "",
@@ -10,7 +10,7 @@
     "watch": "bun run watch_scripts & bun run watch_html"
   },
   "dependencies": {
-    "jasser": "^1.1.2"
+    "jasser": "^1.1.5"
   },
   "devDependencies": {
     "@types/bun": "^1.2.23",

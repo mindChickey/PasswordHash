@@ -8,8 +8,8 @@ function Head() {
     <title>Light Pass</title>
     <meta name="keywords" content="password" />
     <meta name="description" content="password" />
-    <link rel="icon" href="./icon.svg" type="image/svg" />
-    <style>{readContent(__dirname, "./index.css")}</style>
+    <link rel="icon" href="./image/icon.svg" type="image/svg" />
+    <link rel="stylesheet" href="./image/homePage.css" />
   </head>
 }
 
