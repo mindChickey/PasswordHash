@@ -1,4 +1,4 @@
-Copyright (c) 2013-2021, PasswordHash, https://github.com/w453908766/PasswordHash
+Copyright (c) 2013-2021, LightPass, https://github.com/mindChickey/LightPass
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
