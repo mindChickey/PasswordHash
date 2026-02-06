@@ -3,7 +3,7 @@ name: Deploy with Bun
 
 on:
   push:
-    branches: ["deploy"]  # 仅在 deploy 分支推送时触发
+    branches: ["deploy"]
 
 permissions:
   contents: read
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps:deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
